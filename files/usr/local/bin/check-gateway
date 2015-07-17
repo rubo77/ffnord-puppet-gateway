@@ -68,4 +68,21 @@ if [ "$NEW_STATE" == "off" ]; then
     fi
 fi
 
+# check if openvpn is running and restart it if needed
+LOCKFILE=/tmp/openvpn-restart.lock
+touch $LOCKFILE
+LAST=$(<$LOCKFILE)
+NOW=$(date "+%Y%m%d%H%M%S")
+INTERVAL=600 # min seconds to wait between restarts
+if ! pgrep "openvpn" > /dev/null; then
+  
+  if [ $(($LAST+$INTERVAL)) -gt $(date "+%Y%m%d%H%M%S") ]; then
+    echo "["$(date "+%Y-%m-%d %H:%M:%S")"] too many restarts within $INTERVAL seconds">> /var/log/openvpn.log
+  else
+    echo "["$(date "+%Y-%m-%d %H:%M:%S")"] service restarted">> /var/log/openvpn.log
+    echo $NOW > $LOCKFILE
+    /usr/sbin/service openvpn restart
+  fi
+fi
+
 # vim: noai:ts=4:sw=4:ff=unix:ft=text:fdm=marker
