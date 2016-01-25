@@ -31,6 +31,8 @@ class ffnord::alfred (
       ensure => installed;
     'ethtool':
       ensure => installed;
+    'systemd-sysv':
+      ensure => installed;
   }
 
   exec { 'alfred':
