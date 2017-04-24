@@ -16,7 +16,9 @@ before_install:
   - sudo puppet module install saz-sudo --version 4.1.0
   - sudo puppet module install torrancew-account --version 0.1.0
   - cd /etc/puppet/modules
-  - sudo git clone https://github.com/ffnord/ffnord-puppet-gateway ffnord
+  - sudo git clone https://github.com/rubo77/ffnord-puppet-gateway ffnord
+  - cd ffnord
+  - sudo git checkout rubo-travis
   - cd /home/travis/build/ffnord/ffnord-puppet-gateway
 
 script:
